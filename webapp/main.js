@@ -1,23 +1,23 @@
 // ===== NAME LIST LOGIC =====
 
-const existingList = JSON.parse(localStorage.getItem('nameList')) || [];
+const nameList = JSON.parse(localStorage.getItem('nameList')) || [];
 function addName(name) {
-  existingList.push(name);
-  localStorage.setItem('nameList', JSON.stringify(existingList));
+  nameList.push(name);
+  localStorage.setItem('nameList', JSON.stringify(nameList));
 }
 
 function removeName(name) {
-  const index = existingList.indexOf(name);
+  const index = nameList.indexOf(name);
   if (index !== -1) {
-    existingList.splice(index, 1);
-    localStorage.setItem('nameList', JSON.stringify(existingList));
+    nameList.splice(index, 1);
+    localStorage.setItem('nameList', JSON.stringify(nameList));
   }
 }
 
 // ===== CSV LOGIC =====
 
 function fetchCSVDataFromGitHub() {
-  const githubRepoUrl = 'https://github.com/dvermaas/picobra/tree/master/extraction/nl_default.csv';
+  const githubRepoUrl = 'extraction/nl_default.csv';
 
   return fetch(githubRepoUrl)
     .then(response => response.text())
@@ -60,18 +60,18 @@ document.addEventListener("DOMContentLoaded", function() {
     if (event.key === "Enter") addPill(searchBar.value);
   });
 
-  function addPill(text) {
+  function addPill(text, addToList = true) {
     if (text.trim() !== "") {
       const pill = document.createElement("div");
       pill.classList.add("pill");
       pill.innerHTML = `<span>${text}</span><span class="dismiss">&nbsp&times;</span>`;
-      addName(text)
       pillContainer.appendChild(pill);
+      if (addToList) addName(text);
 
       const dismissButton = pill.querySelector(".dismiss");
       dismissButton.addEventListener("click", function() {
-        removeName(text)
         pillContainer.removeChild(pill);
+        removeName(text)
       });
 
       searchBar.value = "";
@@ -79,4 +79,8 @@ document.addEventListener("DOMContentLoaded", function() {
       pillContainer.scrollTop = pillContainer.scrollHeight
     }
   }
+
+  nameList.forEach(name => {
+    addPill(name, false);
+  });
 });
