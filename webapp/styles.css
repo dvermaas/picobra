@@ -72,13 +72,9 @@ button{
   transform: translateX(-50%);
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
 }
 
 .pill {
-  display: inline-flex;
-  align-items: center;
   background-color: #555;
   color: #fff;
   padding: 5px 10px;

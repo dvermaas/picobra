@@ -39,7 +39,8 @@ document.addEventListener("DOMContentLoaded", function() {
   const addButton = document.getElementById("add-button");
   const pillContainer = document.getElementById("pill-container");
 
-  addButton.addEventListener("click", function() {
+  addButton.addEventListener("click", function(event) {
+    event.preventDefault()
     addPill(searchBar.value);
   });
   searchBar.addEventListener("keyup", function(event) {
