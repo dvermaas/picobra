@@ -1,29 +1,47 @@
-// document.addEventListener("DOMContentLoaded", function() {
-//       var searchInput = document.getElementById("search-input");
-//       var pillContainer = document.getElementById("pill-container");
-//
-//       searchInput.addEventListener("keyup", function(event) {
-//         if (event.keyCode === 13) { // Check if Enter key is pressed
-//           var searchText = searchInput.value.trim();
-//           if (searchText !== "") {
-//             var pill = document.createElement("div");
-//             pill.className = "pill";
-//             pill.innerHTML = searchText;
-//
-//             var dismissButton = document.createElement("button");
-//             dismissButton.className = "dismiss-button";
-//             dismissButton.innerHTML = "x";
-//             dismissButton.addEventListener("click", function() {
-//               pill.remove();
-//             });
-//
-//             pill.appendChild(dismissButton);
-//             pillContainer.appendChild(pill);
-//             searchInput.value = "";
-//           }
-//         }
-//       });
-//     });
+// ===== NAME LIST LOGIC =====
+
+const existingList = JSON.parse(localStorage.getItem('nameList')) || [];
+function addName(name) {
+  existingList.push(name);
+  localStorage.setItem('nameList', JSON.stringify(existingList));
+}
+
+function removeName(name) {
+  const index = existingList.indexOf(name);
+  if (index !== -1) {
+    existingList.splice(index, 1);
+    localStorage.setItem('nameList', JSON.stringify(existingList));
+  }
+}
+
+// ===== CSV LOGIC =====
+
+function fetchCSVDataFromGitHub() {
+  const githubRepoUrl = 'https://github.com/dvermaas/picobra/tree/master/extraction/nl_default.csv';
+
+  return fetch(githubRepoUrl)
+    .then(response => response.text())
+    .then(csvData => {
+      localStorage.setItem('csvData', csvData);
+      console.log('CSV data fetched from GitHub and stored locally.');
+    })
+    .catch(error => {
+      console.log('Error fetching CSV data from GitHub:', error);
+    });
+}
+
+function isCSVDataStoredLocally() {
+  return localStorage.getItem('csvData') !== null;
+}
+
+if (!isCSVDataStoredLocally()) {
+  fetchCSVDataFromGitHub();
+} else {
+  console.log('CSV data is already stored locally.');
+}
+
+// ===== MAIN PAGE LOGIC =====
+
 function updateTheme() {
   const colorMode = window.matchMedia("(prefers-color-scheme: dark)").matches ?
     "dark" :
@@ -36,13 +54,8 @@ updateTheme()
 
 document.addEventListener("DOMContentLoaded", function() {
   const searchBar = document.getElementById("search-input");
-  const addButton = document.getElementById("add-button");
   const pillContainer = document.getElementById("pill-container");
 
-  addButton.addEventListener("click", function(event) {
-    event.preventDefault()
-    addPill(searchBar.value);
-  });
   searchBar.addEventListener("keyup", function(event) {
     if (event.key === "Enter") addPill(searchBar.value);
   });
@@ -52,10 +65,12 @@ document.addEventListener("DOMContentLoaded", function() {
       const pill = document.createElement("div");
       pill.classList.add("pill");
       pill.innerHTML = `<span>${text}</span><span class="dismiss">&nbsp&times;</span>`;
+      addName(text)
       pillContainer.appendChild(pill);
 
       const dismissButton = pill.querySelector(".dismiss");
       dismissButton.addEventListener("click", function() {
+        removeName(text)
         pillContainer.removeChild(pill);
       });
 

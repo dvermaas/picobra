@@ -67,11 +67,12 @@ button{
 
 .pill-container {
   position: absolute;
-  top: -40px;
   left: 50%;
-  transform: translateX(-50%);
   display: flex;
-  flex-wrap: wrap;
+
+  /*width: 100%;*/
+  /*overflow-x: auto;*/
+  /*-webkit-overflow-scrolling: touch; !* Enable smooth scrolling on iOS devices *!*/
 }
 
 .pill {
@@ -98,7 +99,7 @@ button{
 }
 
 .form-control{
-  width: 60%;
+  width: 65%;
   max-width: 350px;
 
 }
