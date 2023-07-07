@@ -59,6 +59,8 @@ document.addEventListener("DOMContentLoaded", function() {
       });
 
       searchBar.value = "";
+
+      pillContainer.scrollTop = pillContainer.scrollHeight
     }
   }
 });

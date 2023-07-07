@@ -15,7 +15,9 @@ body {
 }
 
 h1 {
-  font-size: 108px;
+  font-size: min(22vw, 108px); /* Adjust the value as needed */
+  /*min-font-size: 48px; !* Adjust the value as needed *!*/
+  /*max-font-size: 108px; !* Adjust the value as needed *!*/
   font-weight: bold;
   background: -webkit-linear-gradient(45deg, #ff0f7b, #f89b29);
   -webkit-background-clip: text;
@@ -31,13 +33,13 @@ button{
   margin-left: 8px;
 }
 
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/*.container {*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
 
-  flex-direction: column;
-}
+/*  flex-direction: column;*/
+/*}*/
 
 .search-bar {
   position: relative;
@@ -97,4 +99,10 @@ button{
   padding: 3px 8px;
   border-radius: 50%;
   cursor: pointer;
+}
+
+.form-control{
+  width: 60%;
+  max-width: 350px;
+
 }
