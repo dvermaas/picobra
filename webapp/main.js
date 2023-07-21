@@ -55,9 +55,15 @@ updateTheme()
 document.addEventListener("DOMContentLoaded", function() {
   const searchBar = document.getElementById("search-input");
   const pillContainer = document.getElementById("pill-container");
+  const startButton = document.getElementById("start-button");
 
   searchBar.addEventListener("keyup", function(event) {
     if (event.key === "Enter") addPill(searchBar.value);
+  });
+
+ startButton.addEventListener('click', () => {
+    // Redirect to "index2.html" when the button is clicked
+    window.location.href = 'index2.html';
   });
 
   function addPill(text, addToList = true) {
