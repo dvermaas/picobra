@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
  startButton.addEventListener('click', () => {
     // Redirect to "index2.html" when the button is clicked
-    window.location.href = 'game.html';
+    window.location.href = 'options.html';
   });
 
   function addPill(text, addToList = true) {

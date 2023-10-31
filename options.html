@@ -8,24 +8,21 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
-<!-- iOS-style navigation bar -->
-<nav class="navbar navbar-light bg-info">
-    <a class="navbar-brand text-white" href="javascript:history.back()"><i class="material-icons">arrow_back</i></a>
-    <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-            <a class="nav-link text-white" href="#">
-                <i class="material-icons">settings</i>
-            </a>
-        </li>
-    </ul>
+<nav class="navbar navbar-light custom-navbar">
+    <a class="navbar-brand text-white" href="index.html"><i class="material-icons">arrow_back</i></a>
+    <div class="mx-auto my-logo">
+        Picobra
+    </div>
 </nav>
+
+<div class="separator"></div>
 
 <div class="container mt-5">
     <div class="row">
         <div class="col-6 col-md-4 col-lg-4 mb-4">
             <div class="card rounded-lg">
                 <div class="card-body text-center">
-                    <i class="material-icons md-48">flag</i>
+                    <img src="icons/smile.png" alt="Home" width="48px" height="48px">
                     <p class="card-text">Getting Started</p>
                 </div>
             </div>
@@ -33,7 +30,7 @@
         <div class="col-6 col-md-4 col-lg-4 mb-4">
             <div class="card rounded-lg">
                 <div class="card-body text-center">
-                    <i class="material-icons md-48">snowmobile</i>
+                    <img src="icons/crazy.png" alt="Home" width="48px" height="48px">
                     <p class="card-text">Getting Crazy</p>
                 </div>
             </div>
@@ -41,7 +38,7 @@
         <div class="col-6 col-md-4 col-lg-4 mb-4">
             <div class="card rounded-lg">
                 <div class="card-body text-center">
-                    <i class="material-icons md-48">sports_bar</i>
+                    <img src="icons/beer.png" alt="Home" width="48px" height="48px">
                     <p class="card-text">Bar</p>
                 </div>
             </div>
@@ -49,7 +46,7 @@
         <div class="col-6 col-md-4 col-lg-4 mb-4">
             <div class="card rounded-lg">
                 <div class="card-body text-center">
-                    <i class="material-icons md-48">local_fire_department</i>
+                    <img src="icons/fire.png" alt="Home" width="48px" height="48px">
                     <p class="card-text">Caliente</p>
                 </div>
             </div>
@@ -57,7 +54,7 @@
         <div class="col-6 col-md-4 col-lg-4 mb-4">
             <div class="card rounded-lg">
                 <div class="card-body text-center">
-                    <i class="material-icons md-48">flag</i>
+                    <img src="icons/skull.png" alt="Home" width="48px" height="48px">
                     <p class="card-text">War</p>
                 </div>
             </div>
@@ -65,8 +62,8 @@
         <div class="col-6 col-md-4 col-lg-4 mb-4">
             <div class="card rounded-lg">
                 <div class="card-body text-center">
-                    <i class="material-icons md-48">public</i>
-                    <p class="card-text">Add</p>
+                    <img src="icons/plus.png" alt="Home" width="48px" height="48px">
+                    <p class="card-text">Coming Soon</p>
                 </div>
             </div>
         </div>
@@ -86,7 +83,8 @@
     }
 
     [data-bs-theme="dark"]{
-      --body-bg: #222;
+      --body-bg: #121212;
+      --body-acc: #181818;
       --body-color: #fff;
     }
 
@@ -95,10 +93,33 @@
       color: var(--body-color);
       font-family: Roboto, Arial, sans-serif;
     }
+
+    div.card {
+        background-color: var(--body-acc);
+    }
+
+    .custom-navbar {
+        background-color: var(--body-bg);
+    }
+
+    /* Separator bar style */
+    .separator {
+        height: 1px;
+        background-color: var(--body-color);
+    }
+
+    .my-logo {
+            font-size: min(11vw, 96px); /* Adjust the value as needed */
+            color: #fff;
+            font-weight: bold;
+            background: -webkit-linear-gradient(45deg, #ff0f7b, #f89b29);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 </style>
 
 <script>
-    // updateTheme()
+    updateTheme()
     function updateTheme() {
       const colorMode = window.matchMedia("(prefers-color-scheme: dark)").matches ?
         "dark" :
