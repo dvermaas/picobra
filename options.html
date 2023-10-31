@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap Tiles</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+<!-- iOS-style navigation bar -->
+<nav class="navbar navbar-light bg-info">
+    <a class="navbar-brand text-white" href="javascript:history.back()"><i class="material-icons">arrow_back</i></a>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a class="nav-link text-white" href="#">
+                <i class="material-icons">settings</i>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-6 col-md-4 col-lg-4 mb-4">
+            <div class="card rounded-lg">
+                <div class="card-body text-center">
+                    <i class="material-icons md-48">flag</i>
+                    <p class="card-text">Getting Started</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-4 mb-4">
+            <div class="card rounded-lg">
+                <div class="card-body text-center">
+                    <i class="material-icons md-48">snowmobile</i>
+                    <p class="card-text">Getting Crazy</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-4 mb-4">
+            <div class="card rounded-lg">
+                <div class="card-body text-center">
+                    <i class="material-icons md-48">sports_bar</i>
+                    <p class="card-text">Bar</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-4 mb-4">
+            <div class="card rounded-lg">
+                <div class="card-body text-center">
+                    <i class="material-icons md-48">local_fire_department</i>
+                    <p class="card-text">Caliente</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-4 mb-4">
+            <div class="card rounded-lg">
+                <div class="card-body text-center">
+                    <i class="material-icons md-48">flag</i>
+                    <p class="card-text">War</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-4 mb-4">
+            <div class="card rounded-lg">
+                <div class="card-body text-center">
+                    <i class="material-icons md-48">public</i>
+                    <p class="card-text">Add</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+
+<style>
+    [data-bs-theme="light"]{
+      --body-bg: #fff;
+      --body-color: #000;
+    }
+
+    [data-bs-theme="dark"]{
+      --body-bg: #222;
+      --body-color: #fff;
+    }
+
+    body {
+      background-color: var(--body-bg);
+      color: var(--body-color);
+      font-family: Roboto, Arial, sans-serif;
+    }
+</style>
+
+<script>
+    // updateTheme()
+    function updateTheme() {
+      const colorMode = window.matchMedia("(prefers-color-scheme: dark)").matches ?
+        "dark" :
+        "light";
+      document.querySelector("html").setAttribute("data-bs-theme", colorMode);
+    }
+</script>

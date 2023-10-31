@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class="tile-container">
+        <div class="blue-tile">
+            <div class="icon">
+                <object data="fire.svg" type="image/svg+xml"></object>
+            </div>
+            <div class="description">
+                <p>On fire</p>
+            </div>
+        </div>
+
+        <div class="blue-tile">
+            <div class="icon">
+                <object data="fire.svg" type="image/svg+xml"></object>
+            </div>
+            <div class="description">
+                <p>On fire</p>
+            </div>
+        </div>
+    </div>
+</body>
+<style>
+    html {
+        background-color: black;
+    }
+
+    .tile-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(40%, 1fr)); /* Two tiles per row when possible */
+        grid-gap: 10px; /* Adjust the gap as needed */
+    }
+
+    /* Style for each blue tile */
+    .blue-tile {
+        width: 80%; /* Tiles always take up 100% width of their container */
+        padding: 10%;
+        background-color: blue; /* Blue background color */
+        color: white; /* Text color */
+        text-align: center;
+    }
+
+    /* Style for the icon */
+    .icon object {
+        width: 100px; /* Adjust the size of the SVG as needed */
+        height: 100px; /* Adjust the size of the SVG as needed */
+        display: block;
+        margin: 0 auto;
+    }
+
+    /* Style for the description text */
+    .description p {
+        margin-top: 10px;
+    }
+
+</style>
+</html>

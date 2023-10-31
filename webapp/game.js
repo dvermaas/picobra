@@ -33,6 +33,9 @@ function getRandomQuestionFromLocalStorageCSV() {
     return null;
   }
 
+  // Step 3.1: Filter rows where the 'topic' column is null
+  const filteredRows = rows.filter((row) => row.key === null);
+
   // Step 4: Generate a random index
   const randomIndex = Math.floor(Math.random() * rows.length);
 
