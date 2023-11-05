@@ -36,3 +36,8 @@ body {
         -webkit-text-fill-color: transparent;
 }
 
+.material-icons {
+        vertical-align:middle;
+        padding-left: 8px;
+}
+

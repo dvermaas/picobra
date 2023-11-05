@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<!--<html data-bs-theme="dark">-->
 <html lang="en">
 <head>
-  <title>Your Web Page</title>
-<!--  <link rel="stylesheet" href="webapp/bootstrap-5.3.0.min.css">-->
-  <link rel="stylesheet" href="webapp/bootstrap-4.5.2.min.css">
+  <title>PICOBRA</title>
+  <link rel="stylesheet" href="webapp/bootstrap-5.3.0.min.css">
   <link rel="stylesheet" href="webapp/styles.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap">
-  <script src="webapp/main.js"></script>
+  <script src="webapp/shared.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
+
 <body>
   <header>
     <h1>PICOBRA</h1>
@@ -99,5 +98,59 @@
 
   }
 </style>
+
+<script>
+  const nameList = JSON.parse(localStorage.getItem('nameList')) || [];
+  function addName(name) {
+    nameList.push(name);
+    localStorage.setItem('nameList', JSON.stringify(nameList));
+  }
+
+  function removeName(name) {
+    const index = nameList.indexOf(name);
+    if (index !== -1) {
+      nameList.splice(index, 1);
+      localStorage.setItem('nameList', JSON.stringify(nameList));
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const searchBar = document.getElementById("search-input");
+    const pillContainer = document.getElementById("pill-container");
+    const startButton = document.getElementById("start-button");
+
+    searchBar.addEventListener("keyup", function(event) {
+      if (event.key === "Enter") addPill(searchBar.value);
+    });
+
+    startButton.addEventListener('click', () => {
+      window.location.href = 'options.html';
+    });
+
+    function addPill(text, addToList = true) {
+      if (text.trim() !== "") {
+        const pill = document.createElement("div");
+        pill.classList.add("pill");
+        pill.innerHTML = `<span>${text}</span><span class="dismiss">&nbsp&times;</span>`;
+        pillContainer.appendChild(pill);
+        if (addToList) addName(text);
+
+        const dismissButton = pill.querySelector(".dismiss");
+        dismissButton.addEventListener("click", function() {
+          pillContainer.removeChild(pill);
+          removeName(text)
+        });
+
+        searchBar.value = "";
+
+        pillContainer.scrollTop = pillContainer.scrollHeight
+      }
+    }
+
+    nameList.forEach(name => {
+      addPill(name, false);
+    });
+  });
+</script>
 
 
