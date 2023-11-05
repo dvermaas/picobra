@@ -1,10 +1,12 @@
+/* BASICS */
 [data-bs-theme="light"]{
-  --body-bg: #fff;
-  --body-color: #000;
-}
+      --body-bg: #fff;
+      --body-color: #000;
+    }
 
 [data-bs-theme="dark"]{
-  --body-bg: #222;
+  --body-bg: #121212;
+  --body-acc: #181818;
   --body-color: #fff;
 }
 
@@ -14,92 +16,23 @@ body {
   font-family: Roboto, Arial, sans-serif;
 }
 
-h1 {
-  font-size: min(22vw, 108px); /* Adjust the value as needed */
-  /*min-font-size: 48px; !* Adjust the value as needed *!*/
-  /*max-font-size: 108px; !* Adjust the value as needed *!*/
-  font-weight: bold;
-  background: -webkit-linear-gradient(45deg, #ff0f7b, #f89b29);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40vh;
-  flex-direction: column;
+/* NAVBAR */
+.custom-navbar {
+        /*background-color: var(--body-bg);*/
+        background-color: var(--body-acc);
+    }
+
+.separator {
+    height: 1px;
+    background-color: var(--body-color);
 }
 
-button{
-  margin-left: 8px;
+.my-logo {
+        font-size: 25px;
+        color: #fff;
+        font-weight: bold;
+        background: -webkit-linear-gradient(45deg, #ff0f7b, #f89b29);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
 }
 
-/*.container {*/
-/*  display: flex;*/
-/*  justify-content: center;*/
-/*  align-items: center;*/
-
-/*  flex-direction: column;*/
-/*}*/
-
-.search-bar {
-  position: relative;
-  background-color: #333;
-  padding: 10px;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 300px;
-}
-
-.search-input {
-  background-color: #fff;
-  color: #333;
-  border: none;
-  padding: 5px;
-  width: 100%;
-  border-radius: 3px;
-}
-
-.search-input:focus {
-  outline: none;
-}
-
-.pill-container {
-  position: absolute;
-  left: 50%;
-  display: flex;
-
-  /*width: 100%;*/
-  /*overflow-x: auto;*/
-  /*-webkit-overflow-scrolling: touch; !* Enable smooth scrolling on iOS devices *!*/
-}
-
-.pill {
-  background-color: #555;
-  color: #fff;
-  padding: 5px 10px;
-  margin-right: 5px;
-  margin-bottom: 5px;
-  border-radius: 20px;
-}
-
-.pill .dismiss {
-  cursor: pointer;
-}
-
-.dismiss-button {
-  background-color: #555;
-  color: #fff;
-  border: none;
-  margin-left: 5px;
-  padding: 3px 8px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.form-control{
-  width: 65%;
-  max-width: 350px;
-
-}

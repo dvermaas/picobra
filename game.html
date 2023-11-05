@@ -3,18 +3,40 @@
 <html lang="en">
 <head>
   <title>Your Web Page</title>
-  <link rel="stylesheet" href="webapp/bootstrap.min.css">
-  <link rel="stylesheet" href="webapp/game.css">
+  <link rel="stylesheet" href="webapp/bootstrap-5.3.0.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="webapp/styles.css">
   <script src="webapp/game.js"></script>
   <script src="webapp/PapaParse.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
+    <nav class="navbar navbar-light custom-navbar">
+        <a class="navbar-brand" href="index.html"><i class="material-icons" style="var(--body-color);">arrow_back</i></a>
+        <div class="mx-auto my-logo">
+            PICOBRA
+        </div>
+    </nav>
+
     <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
         <p class="text-center display-4 centered-text" id="question">Your Big Sentence Goes Here</p>
     </div>
+
 </body>
 </html>
+
+<style>
+    .centered-text {
+        font-weight: bold;
+        background: -webkit-linear-gradient(45deg, #ff0f7b, #f89b29);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .material-icons {
+        align-items: center;
+    }
+</style>
 
 

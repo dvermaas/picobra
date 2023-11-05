@@ -1,9 +1,8 @@
 import json
 import csv
-
 import pandas as pd
 
-with open("questions.json", 'r', encoding='utf-8') as file:
+with open("default-7.json", 'r', encoding='utf-8') as file:
     data = json.load(file)
 
 data_index_list = [int(i) for i in data[1]]
@@ -17,5 +16,5 @@ for index in data_index_list:
     output.append(entry_dict)
 
 df = pd.DataFrame.from_records(output)
-#df.to_csv('output.csv', index=False)
+df.to_csv('output7.csv', index=False)
 pd.DataFrame.from_records(output)

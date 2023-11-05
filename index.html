@@ -3,7 +3,8 @@
 <html lang="en">
 <head>
   <title>Your Web Page</title>
-  <link rel="stylesheet" href="webapp/bootstrap.min.css">
+<!--  <link rel="stylesheet" href="webapp/bootstrap-5.3.0.min.css">-->
+  <link rel="stylesheet" href="webapp/bootstrap-4.5.2.min.css">
   <link rel="stylesheet" href="webapp/styles.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap">
   <script src="webapp/main.js"></script>
@@ -29,5 +30,74 @@
   </div>
 </body>
 </html>
+
+<style>
+  h1 {
+  font-size: min(22vw, 108px);
+  font-weight: bold;
+  background: -webkit-linear-gradient(45deg, #ff0f7b, #f89b29);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40vh;
+  flex-direction: column;
+  }
+
+  button {
+    margin-left: 8px;
+  }
+
+  .search-input {
+    background-color: #fff;
+    color: #333;
+    border: none;
+    padding: 5px;
+    width: 100%;
+    border-radius: 3px;
+  }
+
+  .search-input:focus {
+    outline: none;
+  }
+
+  .pill-container {
+    position: absolute;
+    left: 50%;
+    display: flex;
+  }
+
+  .pill {
+    background-color: var(--body-acc);
+    color: var(--body-color);
+    padding: 5px 10px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    border-radius: 20px;
+  }
+
+  .pill .dismiss {
+    cursor: pointer;
+  }
+
+  .dismiss-button {
+    background-color: #555;
+    color: #fff;
+    border: none;
+    margin-left: 5px;
+    padding: 3px 8px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .form-control{
+    width: 65%;
+    max-width: 350px;
+    color: var(--body-color);
+    background-color: var(--body-acc);
+
+  }
+</style>
 
 
