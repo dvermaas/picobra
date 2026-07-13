@@ -1,0 +1,6 @@
+[project]
+name = "picobra"
+version = "0.1.0"
+description = "Offline PWA rebuild of the Picolo party game, plus its data-extraction tooling"
+requires-python = ">=3.8"
+dependencies = []

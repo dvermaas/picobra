@@ -1,0 +1,81 @@
+{
+ "languages": [
+  {
+   "code": "da",
+   "name": "Dansk",
+   "count": 4175
+  },
+  {
+   "code": "de",
+   "name": "Deutsch",
+   "count": 5631
+  },
+  {
+   "code": "en",
+   "name": "English",
+   "count": 5581
+  },
+  {
+   "code": "es",
+   "name": "Español",
+   "count": 4205
+  },
+  {
+   "code": "fr",
+   "name": "Français",
+   "count": 5630
+  },
+  {
+   "code": "it",
+   "name": "Italiano",
+   "count": 4209
+  },
+  {
+   "code": "nl",
+   "name": "Nederlands",
+   "count": 4208
+  },
+  {
+   "code": "nb",
+   "name": "Norsk",
+   "count": 4177
+  },
+  {
+   "code": "pt",
+   "name": "Português",
+   "count": 4209
+  },
+  {
+   "code": "fi",
+   "name": "Suomi",
+   "count": 4179
+  },
+  {
+   "code": "sv",
+   "name": "Svenska",
+   "count": 4170
+  },
+  {
+   "code": "ru",
+   "name": "Русский",
+   "count": 3244
+  },
+  {
+   "code": "ja",
+   "name": "日本語",
+   "count": 4207
+  },
+  {
+   "code": "ko",
+   "name": "한국어",
+   "count": 4202
+  }
+ ],
+ "packs": [
+  "default",
+  "silly",
+  "hot",
+  "war",
+  "bar"
+ ]
+}

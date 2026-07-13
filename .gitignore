@@ -1,0 +1,28 @@
+# Decompiled reference APK — large (~145 MB), read-only source material.
+# Already mined into extraction/questions.json and app/data/, so it's kept
+# out of version control. Delete this line if you want it committed.
+/picolo_v2.5.0/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.log
+*.tmp
+*.bak
+.idea
+.claude
+CLAUDE.md
