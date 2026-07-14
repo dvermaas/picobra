@@ -1,5 +1,6 @@
-// Picobra service worker — offline app shell + on-demand language caching.
-const VERSION = "picobra-v1";
+// Picobra service worker — offline app shell + resilient language caching.
+// Bump VERSION on every release: it forces an update and purges old caches.
+const VERSION = "picobra-v2";
 const SHELL = [
   "./", "./index.html", "./manifest.webmanifest", "./css/styles.css",
   "./js/app.js", "./js/ui.js", "./js/engine.js", "./js/store.js", "./js/data.js",
@@ -9,15 +10,30 @@ const SHELL = [
 ];
 
 self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(VERSION).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
+  // allSettled so one missing shell file can't brick the whole install.
+  e.waitUntil(
+    caches.open(VERSION)
+      .then((c) => Promise.allSettled(SHELL.map((u) => c.add(u))))
+      .then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener("activate", (e) => {
   e.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== VERSION).map((k) => caches.delete(k))))
+    caches.keys()
+      .then((keys) => Promise.all(keys.filter((k) => k !== VERSION).map((k) => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
+
+// Only ever cache successful responses — never store a 404/opaque error.
+function cachePut(request, res) {
+  if (res && res.ok) {
+    const copy = res.clone();
+    caches.open(VERSION).then((c) => c.put(request, copy));
+  }
+  return res;
+}
 
 self.addEventListener("fetch", (e) => {
   const { request } = e;
@@ -25,33 +41,24 @@ self.addEventListener("fetch", (e) => {
   const url = new URL(request.url);
   if (url.origin !== location.origin) return;
 
-  // App shell for navigations (works offline / on refresh).
+  // Navigations -> cached app shell (offline / refresh), else network.
   if (request.mode === "navigate") {
     e.respondWith(caches.match("./index.html").then((r) => r || fetch(request)));
     return;
   }
 
-  // Language banks: stale-while-revalidate so first play caches them for offline.
+  // Language banks -> network-first: always fresh after a deploy, only OK
+  // responses are cached, and it falls back to cache when offline. A transient
+  // 404 can no longer get stuck in the cache.
   if (url.pathname.includes("/data/") && url.pathname.endsWith(".json")) {
     e.respondWith(
-      caches.open(VERSION).then((cache) =>
-        cache.match(request).then((cached) => {
-          const net = fetch(request).then((res) => { cache.put(request, res.clone()); return res; }).catch(() => cached);
-          return cached || net;
-        })
-      )
+      fetch(request).then((res) => cachePut(request, res)).catch(() => caches.match(request))
     );
     return;
   }
 
-  // Everything else: cache-first.
+  // Everything else (js/css/icons) -> cache-first, caching only OK responses.
   e.respondWith(
-    caches.match(request).then((cached) =>
-      cached || fetch(request).then((res) => {
-        const copy = res.clone();
-        caches.open(VERSION).then((c) => c.put(request, copy));
-        return res;
-      })
-    )
+    caches.match(request).then((cached) => cached || fetch(request).then((res) => cachePut(request, res)))
   );
 });
