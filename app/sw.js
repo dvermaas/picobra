@@ -1,6 +1,6 @@
 // Picobra service worker — offline app shell + resilient language caching.
 // Bump VERSION on every release: it forces an update and purges old caches.
-const VERSION = "picobra-v2";
+const VERSION = "picobra-v5";
 const SHELL = [
   "./", "./index.html", "./manifest.webmanifest", "./css/styles.css",
   "./js/app.js", "./js/ui.js", "./js/engine.js", "./js/store.js", "./js/data.js",
@@ -57,8 +57,13 @@ self.addEventListener("fetch", (e) => {
     return;
   }
 
-  // Everything else (js/css/icons) -> cache-first, caching only OK responses.
+  // Everything else (js/css/icons) -> stale-while-revalidate: serve from cache
+  // instantly, then refresh in the background so code edits show up on the next
+  // reload even without a VERSION bump. Only OK responses are cached.
   e.respondWith(
-    caches.match(request).then((cached) => cached || fetch(request).then((res) => cachePut(request, res)))
+    caches.match(request).then((cached) => {
+      const net = fetch(request).then((res) => cachePut(request, res)).catch(() => cached);
+      return cached || net;
+    })
   );
 });

@@ -12,8 +12,8 @@
 //   #picoloapp -> left as-is (literal hashtag)
 
 const TEAM_TOKEN = "%t";
-const SIP_MIN = 2, SIP_MAX = 5;
-const ENDER_MIN_DELAY = 2, ENDER_MAX_DELAY = 6; // cards between a rule and its end
+// Drink intensity (1..5) -> [minSips, maxSips] for the `$` placeholder.
+const INTENSITY_SIPS = { 1: [1, 2], 2: [1, 3], 3: [2, 5], 4: [3, 7], 5: [4, 10] };
 
 const TEAMS = [
   { name: "Red", color: "#ff3b6b" },
@@ -35,11 +35,13 @@ function parse(arr, pack) {
 }
 
 export class Game {
-  constructor(langData, { players, packs, teamMode }) {
+  constructor(langData, { players, packs, teamMode, intensity = 3, ruleLength = 4 }) {
     this.players = players.slice();
     this.teamMode = !!teamMode && players.length >= 2;
     this.teams = this.teamMode ? this._makeTeams() : null;
     this.turnTeam = 0;
+    this.sipRange = INTENSITY_SIPS[intensity] || INTENSITY_SIPS[3];
+    this.ruleDelay = [Math.max(1, ruleLength - 2), ruleLength + 2]; // cards until a rule is lifted
 
     const banks = langData.p || {};
     // Enders are indexed from every pack so a setter always finds its cancel card.
@@ -106,7 +108,7 @@ export class Game {
       if (options) {
         this.scheduled.push({
           ender: options[randInt(0, options.length - 1)],
-          turnsLeft: randInt(ENDER_MIN_DELAY, ENDER_MAX_DELAY),
+          turnsLeft: randInt(this.ruleDelay[0], this.ruleDelay[1]),
         });
         this.activeRules.push({ thread: q.thread, label: q.text });
       }
@@ -121,7 +123,7 @@ export class Game {
       team = this.teams[this.turnTeam];
       this.turnTeam = (this.turnTeam + 1) % this.teams.length;
     }
-    const sips = randInt(SIP_MIN, SIP_MAX);
+    const sips = randInt(this.sipRange[0], this.sipRange[1]);
     const bag = shuffle(this.players);
     let bi = 0;
     const chosen = [];
@@ -147,4 +149,4 @@ export class Game {
   }
 }
 
-export { TEAMS };
+export { TEAMS, INTENSITY_SIPS };

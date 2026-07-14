@@ -21,7 +21,9 @@ body {
   -webkit-user-select: none; user-select: none;
   overflow: hidden;
 }
-#app { height: 100dvh; }
+/* app shell scrolls internally so tall screens (Settings) scroll while the
+   body stays put — home/game fit exactly and never show a scrollbar. */
+#app { height: 100dvh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
 
 .screen {
   display: flex; flex-direction: column;
@@ -91,10 +93,13 @@ button { font: inherit; color: inherit; border: none; background: none; cursor: 
   width: 52px; border-radius: 14px; font-size: 1.6rem; font-weight: 700;
   background: var(--grad); color: #fff;
 }
-.chips { display: flex; flex-wrap: wrap; gap: 8px; max-height: 30vh; overflow-y: auto; }
+.chips {
+  display: flex; flex-wrap: wrap; align-content: flex-start; align-items: flex-start;
+  gap: 8px; max-height: 30vh; overflow-y: auto;
+}
 .chip {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 8px 8px 8px 14px; border-radius: 999px; font-weight: 600;
+  display: inline-flex; align-items: center; align-self: flex-start; gap: 6px;
+  flex: 0 0 auto; padding: 8px 8px 8px 14px; border-radius: 999px; font-weight: 600;
   background: var(--surface-2); border: 1px solid var(--border);
 }
 .chip .x {
@@ -104,6 +109,19 @@ button { font: inherit; color: inherit; border: none; background: none; cursor: 
 .hint { color: var(--muted); font-size: .85rem; text-align: center; }
 .home-actions { display: flex; flex-direction: column; gap: 12px; align-items: center; }
 .active-packs { color: var(--muted); font-size: .85rem; }
+/* When the viewport is short — a phone with the keyboard open (viewport-fit
+   resizes it) or landscape — collapse the hero and hide the non-essential
+   footer so the input, names, and Play stay uncrowded. Never triggers on a
+   normal tall screen, so the desktop layout is untouched. */
+@media (max-height: 600px) {
+  .home .brand-logo,
+  .home .tagline,
+  .home #install-btn,
+  .home .active-packs { display: none; }
+  .home .wordmark { font-size: 2rem; margin-top: 0; }
+  .home .brand { margin-top: 8px; }
+  .home .players-box { justify-content: flex-start; }
+}
 
 /* ---------- SETTINGS ---------- */
 .settings { gap: 8px; }
@@ -140,6 +158,18 @@ button { font: inherit; color: inherit; border: none; background: none; cursor: 
 .switch.on { background: var(--brand-1); }
 .switch.on::after { transform: translateX(22px); }
 .about { color: var(--muted); font-size: .8rem; text-align: center; margin-top: 18px; }
+.slider {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 6px; border-radius: 999px; background: var(--surface-2); outline: none;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--grad); cursor: pointer; box-shadow: 0 3px 10px rgba(0, 0, 0, .45);
+}
+.slider::-moz-range-thumb {
+  width: 26px; height: 26px; border: none; border-radius: 50%; background: var(--brand-1); cursor: pointer;
+}
+.slider-val { color: var(--muted); font-size: .9rem; margin-top: 10px; }
 
 /* ---------- GAME ---------- */
 .game { padding-top: max(14px, env(safe-area-inset-top)); }
@@ -176,7 +206,31 @@ button { font: inherit; color: inherit; border: none; background: none; cursor: 
 .team-banner { background: var(--team, #000); color: #fff; box-shadow: 0 6px 18px -6px var(--team); }
 .tap-hint { text-align: center; color: var(--muted); font-size: .85rem; padding-top: 4px; letter-spacing: .5px; }
 
+/* ---------- iOS install sheet ---------- */
+.sheet-backdrop {
+  position: fixed; inset: 0; z-index: 50;
+  background: rgba(0, 0, 0, .6); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  display: flex; align-items: flex-end; justify-content: center;
+  padding: 16px; padding-bottom: max(16px, env(safe-area-inset-bottom));
+  animation: fade .2s ease;
+}
+.sheet {
+  width: 100%; max-width: 420px;
+  background: var(--bg-2); border: 1px solid var(--border);
+  border-radius: 22px; padding: 24px;
+  display: flex; flex-direction: column; gap: 14px;
+  animation: slideUp .28s cubic-bezier(.2, .75, .25, 1);
+}
+.sheet h3 { font-size: 1.2rem; font-weight: 800; }
+.ios-steps { display: flex; flex-direction: column; gap: 10px; padding-left: 20px; }
+.ios-steps li { line-height: 1.45; }
+.ios-steps svg { vertical-align: -4px; color: var(--brand-1); }
+.sheet-note { color: var(--muted); font-size: .9rem; }
+.sheet .ghost-btn { align-self: stretch; margin-top: 4px; }
+@keyframes fade { from { opacity: 0; } }
+@keyframes slideUp { from { transform: translateY(30px); opacity: 0; } }
+
 @media (prefers-reduced-motion: reduce) {
-  .qcard.in { animation: none; }
+  .qcard.in, .sheet, .sheet-backdrop { animation: none; }
   .spinner { animation-duration: 1.6s; }
 }

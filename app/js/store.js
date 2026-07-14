@@ -1,20 +1,44 @@
 // Persistent app state (players + settings) backed by localStorage.
 const KEY = "picobra:v1";
 
+// Keep in sync with the language codes emitted by extraction/build_data.py.
+const SUPPORTED = ["da", "de", "en", "es", "fi", "fr", "it", "ja", "ko", "nb", "nl", "pt", "ru", "sv"];
+
+// Pick the browser's preferred language if we ship it, else English.
+function detectLang() {
+  try {
+    const nav = typeof navigator !== "undefined" ? navigator : {};
+    const prefs = nav.languages && nav.languages.length ? nav.languages : [nav.language || "en"];
+    for (const p of prefs) {
+      if (!p) continue;
+      let code = p.toLowerCase().split("-")[0];
+      if (code === "no" || code === "nn") code = "nb"; // Norwegian variants -> Bokmål
+      if (SUPPORTED.includes(code)) return code;
+    }
+  } catch { /* fall through */ }
+  return "en";
+}
+
 const defaults = {
   players: [],
   lang: "en",
-  // "war" is the team-battle pack: selecting it forms two squads.
-  packs: { default: true, silly: false, hot: false, war: false, bar: false },
+  langPicked: false, // until the user explicitly chooses, follow the browser
+  mode: "default",   // single game mode; "chaos" = every pack except War (Teams)
+  intensity: 3,      // 1..5 -> sip range for the `$` placeholder (see engine.js)
+  ruleLength: 4,     // avg cards a persistent rule stays active before it's lifted
 };
 
 function load() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(KEY)) || {};
-    return { ...defaults, ...saved, packs: { ...defaults.packs, ...(saved.packs || {}) } };
-  } catch {
-    return structuredClone(defaults);
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY)) || {}; } catch { saved = {}; }
+  const state = { ...defaults, ...saved };
+  if (!state.langPicked) state.lang = detectLang(); // follow browser default until picked
+  if (!saved.mode && saved.packs) { // migrate the old multi-select packs to one mode
+    const on = Object.keys(saved.packs).filter((p) => saved.packs[p]);
+    state.mode = on.length > 1 ? "chaos" : on[0] || "default";
   }
+  delete state.packs;
+  return state;
 }
 
 let state = load();
@@ -35,11 +59,8 @@ export const store = {
     state.players = state.players.filter((p) => p !== name);
     save();
   },
-  togglePack(id) {
-    state.packs = { ...state.packs, [id]: !state.packs[id] };
-    if (!Object.values(state.packs).some(Boolean)) state.packs[id] = true; // keep >=1
-    save();
-  },
-  activePacks: () => Object.keys(state.packs).filter((p) => state.packs[p]),
-  teamPlay: () => !!state.packs.war, // war pack == team battles
+  setMode(id) { state.mode = id; save(); },
+  // Which data packs feed the deck for the current mode.
+  activePacks: () => (state.mode === "chaos" ? ["default", "silly", "hot", "bar"] : [state.mode]),
+  teamPlay: () => state.mode === "war", // War mode splits players into two squads
 };
