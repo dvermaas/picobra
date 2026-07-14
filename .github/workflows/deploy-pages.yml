@@ -1,0 +1,36 @@
+name: Deploy PWA to GitHub Pages
+
+# Publishes the contents of app/ to GitHub Pages on every push to master.
+# The site is served at https://<user>.github.io/<repo>/ (relative paths make
+# the app work unchanged at that subpath).
+
+on:
+  push:
+    branches: [master]
+    paths: ["app/**", ".github/workflows/deploy-pages.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment; newer pushes cancel in-progress runs.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: app          # publish only the PWA, not the whole repo
+      - id: deployment
+        uses: actions/deploy-pages@v4
