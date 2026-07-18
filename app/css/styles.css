@@ -13,7 +13,9 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html, body { height: 100%; }
+/* Dark background on the ROOT too — iOS fills the safe-area / toolbar strip with
+   the <html> background, which otherwise defaults to white. */
+html, body { height: 100%; background-color: var(--bg); }
 body {
   background: radial-gradient(120% 100% at 50% 0%, var(--bg-2), var(--bg) 70%);
   color: var(--text);

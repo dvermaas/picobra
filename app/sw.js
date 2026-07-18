@@ -1,6 +1,6 @@
 // Picobra service worker — offline app shell + resilient language caching.
 // Bump VERSION on every release: it forces an update and purges old caches.
-const VERSION = "picobra-v5";
+const VERSION = "picobra-v6";
 const SHELL = [
   "./", "./index.html", "./manifest.webmanifest", "./css/styles.css",
   "./js/app.js", "./js/ui.js", "./js/engine.js", "./js/store.js", "./js/data.js",
